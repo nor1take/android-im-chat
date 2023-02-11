@@ -15,7 +15,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.chat.utils.Application_Util;
-import com.example.chat.utils.sendRequest;
+import com.example.chat.utils.Okhttp_LoginOrRegist;
 
 public class A_Login_Activity extends AppCompatActivity {
     private EditText uname;
@@ -29,9 +29,6 @@ public class A_Login_Activity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         application = (Application_Util) getApplication();
-
-        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
-                WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.a_login_activity);
@@ -52,7 +49,7 @@ public class A_Login_Activity extends AppCompatActivity {
         if (username != null && password != null) {
             uname.setText(username);
             pwd.setText(password);
-            String resp = sendRequest.postOkhttp(A_Login_Activity.this, "login", username, password);
+            String resp = Okhttp_LoginOrRegist.init(username, password, Okhttp_LoginOrRegist.LOGIN, A_Login_Activity.this);
             if (resp != null)
                 if ("登录成功".equals(resp.substring(0, 4))) {
                     startActivity(new Intent(A_Login_Activity.this, B_Container_Activity.class));
@@ -74,7 +71,7 @@ public class A_Login_Activity extends AppCompatActivity {
                 if (username.equals("") || password.equals(""))
                     Toast.makeText(A_Login_Activity.this, "用户名或密码不为空", Toast.LENGTH_SHORT).show();
                 else {
-                    String resp = sendRequest.postOkhttp(A_Login_Activity.this, "login", username, password);
+                    String resp = Okhttp_LoginOrRegist.init(username, password, Okhttp_LoginOrRegist.LOGIN, A_Login_Activity.this);
                     if (resp != null) {
                         if ("登录成功".equals(resp.substring(0, 4))) {
                             String s_id = resp.substring(4);

@@ -1,9 +1,30 @@
 package com.example.chat.pojo;
 
+/**
+ * 在消息界面 B_Tab4_Fragment 的消息列表中的 item
+ */
 public class Dialog {
     int postId;
-    String uidUser; // 对方的uid
+    String from; // 对方的uid
+    String to; // 自己的uid
     String message;
+
+    public Dialog() {
+    }
+
+    public Dialog(Dialog dialog) {
+        this.postId = dialog.getPostId();
+        this.from = dialog.getFrom();
+        this.to = dialog.getTo();
+        this.message = dialog.getMessage();
+    }
+
+    public Dialog(int postId, String from, String to, String message) {
+        this.postId = postId;
+        this.from = from;
+        this.to = to;
+        this.message = message;
+    }
 
     public int getPostId() {
         return postId;
@@ -13,12 +34,20 @@ public class Dialog {
         this.postId = postId;
     }
 
-    public String getUidUser() {
-        return uidUser;
+    public String getFrom() {
+        return from;
     }
 
-    public void setUidUser(String uidUser) {
-        this.uidUser = uidUser;
+    public void setFrom(String from) {
+        this.from = from;
+    }
+
+    public String getTo() {
+        return to;
+    }
+
+    public void setTo(String to) {
+        this.to = to;
     }
 
     public String getMessage() {
@@ -26,12 +55,6 @@ public class Dialog {
     }
 
     public void setMessage(String message) {
-        this.message = message;
-    }
-
-    public Dialog(int postId, String uidUser, String message) {
-        this.postId = postId;
-        this.uidUser = uidUser;
         this.message = message;
     }
 }

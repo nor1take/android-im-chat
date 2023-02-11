@@ -43,7 +43,7 @@ public class DialogAdpter extends ArrayAdapter<Dialog> {
             view = convertView;
             viewHolder = (ViewHolder) view.getTag();
         }
-        viewHolder.uid.setText(dialog.getUidUser());
+        viewHolder.uid.setText(dialog.getFrom() + " # " + dialog.getPostId());
         viewHolder.content.setText(dialog.getMessage());
         return view;
     }

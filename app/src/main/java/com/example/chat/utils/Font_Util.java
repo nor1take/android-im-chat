@@ -37,8 +37,6 @@ public class Font_Util {
                 face = Typeface.createFromAsset(activity.getAssets(),
                         "fonts/SourceHanSerifSC-Heavy.otf");
                 break;
-
-
         }
         tv.setTypeface(face);
     }

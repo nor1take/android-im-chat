@@ -1,7 +1,6 @@
 package com.example.chat;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.NavUtils;
 
 import android.content.Context;
 import android.content.Intent;
@@ -9,18 +8,11 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.chat.utils.sendRequest;
-
-import okhttp3.FormBody;
-import okhttp3.OkHttpClient;
-import okhttp3.Request;
-import okhttp3.RequestBody;
-import okhttp3.Response;
+import com.example.chat.utils.Okhttp_LoginOrRegist;
 
 public class A_Register_Activity extends AppCompatActivity {
     private EditText uname;
@@ -40,11 +32,9 @@ public class A_Register_Activity extends AppCompatActivity {
             }
         });
 
-
         ImageView register = findViewById(R.id.register);
         uname = findViewById(R.id.username_register);
         pwd = findViewById(R.id.password_register);
-
 
         register.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -55,13 +45,13 @@ public class A_Register_Activity extends AppCompatActivity {
                 uname.clearFocus();
                 pwd.clearFocus();
                 //强制收起软键盘
-                InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
-                imm.hideSoftInputFromWindow(uname.getWindowToken(),0);
-                imm.hideSoftInputFromWindow(pwd.getWindowToken(),0);
+                InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                imm.hideSoftInputFromWindow(uname.getWindowToken(), 0);
+                imm.hideSoftInputFromWindow(pwd.getWindowToken(), 0);
                 if (username.equals("") || password.equals(""))
                     Toast.makeText(A_Register_Activity.this, "用户名或密码不为空", Toast.LENGTH_SHORT).show();
                 else {
-                    String resp = sendRequest.postOkhttp(A_Register_Activity.this, "register", username, password);
+                    String resp = Okhttp_LoginOrRegist.init(username, password, Okhttp_LoginOrRegist.REGISTER, A_Register_Activity.this);
                     if ("注册成功".equals(resp)) {
                         startActivity(new Intent(A_Register_Activity.this, B_Container_Activity.class));
                     }

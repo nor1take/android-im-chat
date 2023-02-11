@@ -3,10 +3,12 @@ package com.example.chat;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -14,11 +16,17 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONArray;
 import com.example.chat.adapter.MsgAdapter;
+import com.example.chat.pojo.Dialog;
 import com.example.chat.pojo.Msg;
+import com.example.chat.pojo.MyMessage;
 import com.example.chat.pojo.Post;
 import com.example.chat.utils.Application_Util;
+import com.example.chat.utils.Font_Util;
 import com.example.chat.utils.SoftKeyBoardListener;
+import com.example.chat.utils.Okhttp_Post;
+import com.example.chat.utils.QuickOkhttp_Util;
 
 import java.io.BufferedWriter;
 import java.io.IOException;
@@ -26,10 +34,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import okhttp3.FormBody;
-import okhttp3.OkHttpClient;
-import okhttp3.Request;
 import okhttp3.RequestBody;
-import okhttp3.Response;
 
 public class C_Chat_Activity extends AppCompatActivity implements View.OnClickListener {
     final String ip = "https://n58770595y.zicp.fun/AndroidServe/";
@@ -48,7 +53,7 @@ public class C_Chat_Activity extends AppCompatActivity implements View.OnClickLi
 
     Handler handler;
     private BufferedWriter bwServer;
-    private int receiverUID;
+    private int receiverId;
     private static Application_Util application;
 
     private static boolean isRunning = false;
@@ -61,20 +66,26 @@ public class C_Chat_Activity extends AppCompatActivity implements View.OnClickLi
         super.onCreate(savedInstanceState);
         setContentView(R.layout.c_chat_activity);
 
+        application = (Application_Util) getApplication();
+
         isRunning = false; // 关闭之前的receiveMsg线程
+        msgList.clear();
         System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> onCreate");
         isRunning = true;
 
         Intent intent = getIntent();
         Bundle bundle = intent.getExtras();
+        String chatGroup = bundle.getString("chatGroup");
+        initMsgList(chatGroup);
+
         postJson = bundle.getString("PostInfo");
         if (!"".equals(postJson)) {
             post = JSON.parseObject(postJson, Post.class);
-            receiverUID = post.getPoster();
+            receiverId = post.getPoster();
         } else {
-            receiverUID = bundle.getInt("receiverId");
+            receiverId = bundle.getInt("receiverId");
             int postId = bundle.getInt("postId");
-            post = JSON.parseObject(getAPost("aPost", postId + ""), Post.class);
+            post = JSON.parseObject(Okhttp_Post.getA(String.valueOf(postId)), Post.class);
         }
         sendButton = findViewById(R.id.sendBtn);
         input = findViewById(R.id.input);
@@ -82,9 +93,11 @@ public class C_Chat_Activity extends AppCompatActivity implements View.OnClickLi
         lable = findViewById(R.id.label);
         cardText = findViewById(R.id.cardText);
 
-        connectInfo.setText("talking to uid = " + receiverUID);
+        connectInfo.setText("talking to uid = " + receiverId);
         lable.setText("# " + post.getLabel());
         cardText.setText(post.getBody());
+        Font_Util.setFont(cardText, 3, this);
+        Font_Util.setFont(lable, 2, this);
 
         adapter = new MsgAdapter(this, R.layout.c_chat_msg_item, msgList);
         msgListView = findViewById(R.id.msg_list_view);
@@ -123,6 +136,24 @@ public class C_Chat_Activity extends AppCompatActivity implements View.OnClickLi
         startThread();
     }
 
+    private void initMsgList(String chatGroup) {
+        Log.e("chatGroup", chatGroup);
+        RequestBody requestBody = new FormBody.Builder()
+                .add("chatGroup", chatGroup)
+                .build();
+        String allMsgs = QuickOkhttp_Util.init(requestBody, "allMsgs");
+        Log.e("allMsgs", allMsgs);
+        JSONArray array = JSONArray.parseArray(allMsgs);
+        List<MyMessage> messagesList = array.toJavaList(MyMessage.class);
+        for (MyMessage myMessage : messagesList) {
+            if (myMessage.getSenderId() == application.getUid()) {
+                msgList.add(new Msg(myMessage.getMessage(), Msg.TYPE_SENT));
+            } else {
+                msgList.add(new Msg(myMessage.getMessage(), Msg.TYPE_RECEIVED));
+            }
+        }
+    }
+
     @Override
     public void onClick(View v) {
         if (v == findViewById(R.id.sendBtn)) {
@@ -132,6 +163,8 @@ public class C_Chat_Activity extends AppCompatActivity implements View.OnClickLi
                 msgList.add(msg);
                 adapter.updateListView(msgList); // 当有新消息时，刷新ListView中的显示
                 msgListView.setSelection(msgList.size()); // 将ListView定位到最后一行
+                String s = msgOkhttp();
+                System.out.println(s);
             }
             input.setText("");
         }
@@ -144,7 +177,7 @@ public class C_Chat_Activity extends AppCompatActivity implements View.OnClickLi
     }
 
     private void getSocket() {
-        application = (Application_Util) getApplication();
+
         bwServer = application.getBwServer();
     }
 
@@ -173,7 +206,7 @@ public class C_Chat_Activity extends AppCompatActivity implements View.OnClickLi
             try {
                 while (isRunning) {
                     if (message != null && !"".equals(message)) {
-                        bwServer.write("#" + post.getId() + "@" + receiverUID + "用户:" + message);
+                        bwServer.write("#" + post.getId() + "@" + receiverId + "用户:" + message);
                         bwServer.newLine();
                         bwServer.flush();
                         message = null;
@@ -192,43 +225,23 @@ public class C_Chat_Activity extends AppCompatActivity implements View.OnClickLi
         msgListView.setSelection(msgList.size()); // 将ListView定位到最后一行
     }
 
-    /**
-     * @param url
-     * @param id  帖子的 id
-     * @return json
-     */
-    public String getAPost(String url, String id) {
-        Thread thread = new Thread(new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    OkHttpClient client = new OkHttpClient();
-                    RequestBody requestBody = new FormBody.Builder()
-                            .add("id", id)
-                            .build();
+    private String msgOkhttp() {
+        int senderId = application.getUid();
+        Integer postId = post.getId();
 
-                    Request request = new Request.Builder()
-                            .url(ip + url)
-                            .method("POST", requestBody)
-                            .build();
-                    Response response = client.newCall(request).execute();
-                    postJson = response.body().string();
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
-        });
-        thread.start();
-        try {
-            thread.join();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-        return postJson;
+        Dialog dialog;
+        dialog = new Dialog(
+                postId,
+                String.valueOf(Math.min(senderId, receiverId)) + "用户",
+                String.valueOf(Math.max(senderId, receiverId)) + "用户",
+                "...");
+        RequestBody requestBody = new FormBody.Builder()
+                .add("senderId", String.valueOf(senderId))
+                .add("message", input.getText().toString())
+                .add("receiverId", String.valueOf(receiverId))
+                .add("postId", String.valueOf(postId))
+                .add("chatGroup", JSON.toJSONString(dialog))
+                .build();
+        return QuickOkhttp_Util.init(requestBody, "sendMsg");
     }
-//    @Override
-//    protected void onPause() {
-//        super.onPause();
-//        isRunning = false;
-//    }
 }

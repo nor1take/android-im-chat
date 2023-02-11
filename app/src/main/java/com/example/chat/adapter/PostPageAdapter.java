@@ -14,14 +14,16 @@ import com.example.chat.pojo.Post;
 import com.example.chat.utils.Font_Util;
 import com.example.chat.utils.Time_Util;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.LinkedList;
 import java.util.List;
 
 public class PostPageAdapter extends PagerAdapter {
     private Context context;
     private List<Post> list;
+
+
+    private LinkedList<View> recycledViews = new LinkedList<View>();
 
     public PostPageAdapter(Context context, List<Post> list) {
         this.context = context;
@@ -35,25 +37,32 @@ public class PostPageAdapter extends PagerAdapter {
 
     @Override
     public Object instantiateItem(ViewGroup container, int position) {
-
-        View postContainer = View.inflate(context, R.layout.b_tab1_post_item, null);
-
-        TextView cardText = postContainer.findViewById(R.id.cardText);
-        TextView labelText = postContainer.findViewById(R.id.label);
-        TextView peopleNum = postContainer.findViewById(R.id.peopleNumber);
-        TextView postTime = postContainer.findViewById(R.id.postTime);
-
-//        Font_Util.setFont(cardText, 3, (Activity) context);
-//        Font_Util.setFont(labelText, 2, (Activity) context);
-//        Font_Util.setFont(peopleNum, 0, (Activity) context);
-//        Font_Util.setFont(postTime, 0, (Activity) context);
+        ViewHolder holder = null;
+        View postContainer = null;
+        if (recycledViews != null && recycledViews.size() > 0) {
+            postContainer = recycledViews.getFirst();
+            holder = (ViewHolder) postContainer.getTag();
+            recycledViews.removeFirst();
+        } else {
+            postContainer = View.inflate(context, R.layout.b_tab1_post_item, null);
+            holder = new ViewHolder();
+            holder.cardText = postContainer.findViewById(R.id.cardText);
+            holder.labelText = postContainer.findViewById(R.id.label);
+            holder.peopleNum = postContainer.findViewById(R.id.peopleNumber);
+            holder.postTime = postContainer.findViewById(R.id.postTime);
+            Font_Util.setFont(holder.cardText, 3, (Activity) context);
+            Font_Util.setFont(holder.labelText, 2, (Activity) context);
+            Font_Util.setFont(holder.peopleNum, 0, (Activity) context);
+            Font_Util.setFont(holder.postTime, 0, (Activity) context);
+            postContainer.setTag(holder);
+        }
 
         Post postDetail = list.get(position);
 
-        cardText.setText(postDetail.getBody());
-        labelText.setText("# " + postDetail.getLabel());
-        peopleNum.setText("已有 " + postDetail.getPeopleNum().toString() + " 人参与聊天");
-        postTime.setText("发布于 " + Time_Util.setTime(new Date(), postDetail.getTime()));
+        holder.cardText.setText(postDetail.getBody());
+        holder.labelText.setText("# " + postDetail.getLabel());
+        holder.peopleNum.setText("已有 " + postDetail.getPeopleNum().toString() + " 人参与聊天");
+        holder.postTime.setText("发布于 " + Time_Util.setTime(new Date(), postDetail.getTime()));
 
         container.addView(postContainer);
         return postContainer;
@@ -61,12 +70,26 @@ public class PostPageAdapter extends PagerAdapter {
 
     @Override
     public void destroyItem(ViewGroup container, int position, Object object) {
-        // super.destroyItem(container, position, object); // 这一句要删除，否则报错
-        // container.removeView((View) object);
+        container.removeView((View) object);
+        if (object != null) {
+            recycledViews.addLast((View) object); // 缓存
+        }
     }
 
     @Override
     public boolean isViewFromObject(@NonNull View view, @NonNull Object object) {
         return view == object;
+    }
+
+    @Override
+    public int getItemPosition(@NonNull Object object) {
+        return super.getItemPosition(object);
+    }
+
+    static class ViewHolder {
+        TextView cardText;
+        TextView labelText;
+        TextView peopleNum;
+        TextView postTime;
     }
 }

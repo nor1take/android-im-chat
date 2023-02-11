@@ -1,6 +1,5 @@
 package com.example.chat;
 
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 
@@ -9,40 +8,30 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.viewpager.widget.ViewPager;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.ImageView;
-import android.widget.Toast;
 
 import com.alibaba.fastjson.JSON;
 import com.example.chat.adapter.PostPageAdapter;
 import com.example.chat.adapter.ZoomOutPageTransformer;
+import com.example.chat.pojo.Dialog;
 import com.example.chat.pojo.Post;
 import com.example.chat.utils.Application_Util;
+import com.example.chat.utils.Okhttp_Post;
 
-import java.io.IOException;
 import java.net.Socket;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 
-import okhttp3.FormBody;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
-import okhttp3.RequestBody;
 import okhttp3.Response;
 
 public class B_Tab1_Fragment extends Fragment {
-    final String ip = "https://n58770595y.zicp.fun/AndroidServe/";
-
-    String data;
-
     ImageView sendPostBtn;
     ImageButton chatBtn;
 
@@ -53,8 +42,6 @@ public class B_Tab1_Fragment extends Fragment {
     ViewPager vp;
 
     int index = 0;
-
-    Socket s;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -81,6 +68,10 @@ public class B_Tab1_Fragment extends Fragment {
 
             @Override
             public void onPageSelected(int position) {
+                if (position < index) {
+                    index = position;
+                    return;
+                }
                 index = position;
                 int size = list.size();
                 System.out.println(size);
@@ -88,8 +79,15 @@ public class B_Tab1_Fragment extends Fragment {
                     new Thread(new Runnable() {
                         @Override
                         public void run() {
-                            for (int i = size; i < size + 5; i++) {
-                                load.add(JSON.parseObject(getAPost("aPost", idList[i]), Post.class));
+                            if (idList.length == size) return;
+                            else if (idList.length < size + 5) {
+                                for (int i = size; i < idList.length; i++) {
+                                    load.add(JSON.parseObject(Okhttp_Post.getA(idList[i]), Post.class));
+                                }
+                            } else {
+                                for (int i = size; i < size + 5; i++) {
+                                    load.add(JSON.parseObject(Okhttp_Post.getA(idList[i]), Post.class));
+                                }
                             }
                         }
                     }).start();
@@ -137,16 +135,24 @@ public class B_Tab1_Fragment extends Fragment {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getActivity(), C_Chat_Activity.class);
+                Post curPost = list.get(index);
                 Bundle bundle = new Bundle();
-                bundle.putString("PostInfo", JSON.toJSONString(list.get(index)));
+                bundle.putString("PostInfo", JSON.toJSONString(curPost));
+                bundle.putString("chatGroup", DialogJson(curPost));
+                DialogJson(curPost);
                 intent.putExtras(bundle);
                 startActivity(intent);
-                //System.out.println();
-                //startActivity(new Intent(getActivity(), C_Chat_Activity.class));
             }
         });
-
         setViewPager();
+    }
+
+    private String DialogJson(Post curPost) {
+        Application_Util application = (Application_Util) getActivity().getApplication();
+        int to = curPost.getPoster();
+        int from = application.getUid();
+        Dialog dialog = new Dialog(curPost.getId(), Math.min(to, from) + "用户", Math.max(to, from) + "用户", "...");
+        return JSON.toJSONString(dialog);
     }
 
     @Override
@@ -156,81 +162,15 @@ public class B_Tab1_Fragment extends Fragment {
         //vp.getAdapter().notifyDataSetChanged();
     }
 
-    /**
-     * 获取所有帖子的 id。
-     *
-     * @param url
-     * @return id1#id2#...
-     */
-    public String getAllPosts(String url) {
-        Thread thread = new Thread(new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    OkHttpClient client = new OkHttpClient();
-                    Request request = new Request.Builder()
-                            .url(ip + url)
-                            .build();
-                    Response response = client.newCall(request).execute();
-                    data = response.body().string();
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
-        });
-        thread.start();
-        try {
-            thread.join();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-        return data;
-    }
-
-    /**
-     * @param url
-     * @param id  帖子的 id
-     * @return json
-     */
-    public String getAPost(String url, String id) {
-        Thread thread = new Thread(new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    OkHttpClient client = new OkHttpClient();
-                    RequestBody requestBody = new FormBody.Builder()
-                            .add("id", id)
-                            .build();
-
-                    Request request = new Request.Builder()
-                            .url(ip + url)
-                            .method("POST", requestBody)
-                            .build();
-                    Response response = client.newCall(request).execute();
-                    data = response.body().string();
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
-        });
-        thread.start();
-        try {
-            thread.join();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-        return data;
-    }
-
     public void getData() {
-        idList = getAllPosts("allPosts").split("#");
+        idList = Okhttp_Post.getAll().split("#");
         if (idList.length < 5) {
             for (int i = 0; i < idList.length; i++) {
-                list.add(JSON.parseObject(getAPost("aPost", idList[i]), Post.class));
+                list.add(JSON.parseObject(Okhttp_Post.getA(idList[i]), Post.class));
             }
         } else {
             for (int i = 0; i < 5; i++) {
-                list.add(JSON.parseObject(getAPost("aPost", idList[i]), Post.class));
+                list.add(JSON.parseObject(Okhttp_Post.getA(idList[i]), Post.class));
             }
         }
     }

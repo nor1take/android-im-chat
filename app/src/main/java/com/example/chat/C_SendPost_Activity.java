@@ -13,16 +13,10 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import java.io.IOException;
-import java.net.Socket;
-import java.text.SimpleDateFormat;
-import java.util.Date;
+import com.example.chat.utils.QuickOkhttp_Util;
 
 import okhttp3.FormBody;
-import okhttp3.OkHttpClient;
-import okhttp3.Request;
 import okhttp3.RequestBody;
-import okhttp3.Response;
 
 public class C_SendPost_Activity extends AppCompatActivity implements View.OnClickListener {
     private String labelText;
@@ -78,54 +72,14 @@ public class C_SendPost_Activity extends AppCompatActivity implements View.OnCli
         button_sendpost.setOnClickListener(this);
     }
 
-    private void showData(final String data) {
-        runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                Toast.makeText(C_SendPost_Activity.this, data, Toast.LENGTH_SHORT).show();
-            }
-        });
-    }
-
-    private String postOkhttp() throws InterruptedException {
-        final String[] data = new String[1];
-        Thread thread = new Thread(new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    Date date = new Date();
-                    System.out.println("一般日期输出：" + date);
-                    System.out.println("时间戳：" + date.getTime());
-                    //Date aw = Calendar.getInstance().getTime();//获得时间的另一种方式，测试效果一样
-                    SimpleDateFormat format0 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-                    String time = format0.format(date.getTime());//这个就是把时间戳经过处理得到期望格式的时间
-
-                    OkHttpClient client = new OkHttpClient();
-                    RequestBody requestBody = new FormBody.Builder()
-                            .add("poster", String.valueOf(id))
-                            .add("label", labelText)
-                            .add("peopleNum", "0")
-                            .add("body", bodyText)
-                            .add("time", time)
-                            .build();
-
-                    Request request = new Request.Builder()
-                            .url("https://n58770595y.zicp.fun/AndroidServe/send")
-                            .method("POST", requestBody)
-                            .build();
-                    Response response = client.newCall(request).execute();
-                    data[0] = response.body().string();
-                    if (data[0] != null) {
-                        showData(data[0]);
-                    }
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
-        });
-        thread.start();
-        thread.join();
-        return data[0];
+    private String sendPostOkhttp() {
+        RequestBody requestBody = new FormBody.Builder()
+                .add("poster", String.valueOf(id))
+                .add("label", labelText)
+                .add("peopleNum", "0")
+                .add("body", bodyText)
+                .build();
+        return QuickOkhttp_Util.init(requestBody, "send");
     }
 
     //点击更换标签背景
@@ -145,14 +99,11 @@ public class C_SendPost_Activity extends AppCompatActivity implements View.OnCli
             if ("".equals(labelText) || labelText == null || "".equals(bodyText) || bodyText == null) {
                 Toast.makeText(this, "标签或内容不能为空", Toast.LENGTH_SHORT).show();
             } else {
-                String s = null;
-                try {
-                    s = postOkhttp();
-                    if (s != null) finish();
-                    else showData("请求服务器失败");
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
+                String response = sendPostOkhttp();
+                if (response != null) {
+                    Toast.makeText(this, response, Toast.LENGTH_SHORT).show();
+                    finish();
+                } else Toast.makeText(this, "请求服务器失败", Toast.LENGTH_SHORT).show();
             }
         }
     }
