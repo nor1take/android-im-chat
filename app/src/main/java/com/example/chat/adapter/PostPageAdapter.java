@@ -74,18 +74,17 @@ public class PostPageAdapter extends PagerAdapter {
         return postContainer;
     }
 
-
-    @Override
-    public boolean isViewFromObject(@NonNull View view, @NonNull Object object) {
-        return view == object;
-    }
-
     @Override
     public void destroyItem(ViewGroup container, int position, Object object) {
         container.removeView((View) object);
         if (object != null) {
             recycledViews.addLast((View) object); // 缓存
         }
+    }
+
+    @Override
+    public boolean isViewFromObject(@NonNull View view, @NonNull Object object) {
+        return view == object;
     }
 
     @Override

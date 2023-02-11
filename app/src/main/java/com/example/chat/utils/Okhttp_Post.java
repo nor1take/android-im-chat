@@ -16,20 +16,12 @@ public class Okhttp_Post {
         return QuickOkhttp_Util.init(requestBody, "aPost");
     }
 
-
-    /**
-     * getAPost
-     * @param  label
-     * @return postJson
-     */
-    public static String getTop3ByLabel(String label) {
+    public static String getLable(String label) {
         RequestBody requestBody = new FormBody.Builder()
                 .add("label", label)
                 .build();
-        System.out.println("进行了一次文学请求");
-        return QuickOkhttp_Util.init(requestBody, "labelTop3");
+        return QuickOkhttp_Util.init(requestBody, "lableTop3");
     }
-    
 
     /**
      * getAllPosts

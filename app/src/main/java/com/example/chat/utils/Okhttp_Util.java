@@ -18,6 +18,15 @@ public class Okhttp_Util implements Runnable {
         this.servlet = servlet;
     }
 
+    @Override
+    public void run() {
+        try {
+            init();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
     private void init() throws IOException {
         OkHttpClient client = new OkHttpClient();
         Request.Builder builder = new Request.Builder();
@@ -26,15 +35,6 @@ public class Okhttp_Util implements Runnable {
         Request request = builder.build();
         Response response = client.newCall(request).execute();
         responseFromServer = response.body().string();
-    }
-
-    @Override
-    public void run() {
-        try {
-            init();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
     }
 
     public String getResponseFromServer() {

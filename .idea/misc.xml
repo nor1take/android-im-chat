@@ -8,8 +8,6 @@
         <entry key="..\:/Android/AndroidStudioProjects/Chat/app/src/main/res/drawable/chat_black_bg.xml" value="0.2275" />
         <entry key="..\:/Android/AndroidStudioProjects/Chat/app/src/main/res/drawable/chat_white_bg.xml" value="0.2275" />
         <entry key="..\:/Android/AndroidStudioProjects/Chat/app/src/main/res/drawable/edit_radius_l_white_bg.xml" value="0.1295" />
-        <entry key="..\:/Android/AndroidStudioProjects/Chat/app/src/main/res/drawable/edit_radius_m_red_bg.xml" value="0.1" />
-        <entry key="..\:/Android/AndroidStudioProjects/Chat/app/src/main/res/drawable/edit_radius_m_white_bg.xml" value="0.1" />
         <entry key="..\:/Android/AndroidStudioProjects/Chat/app/src/main/res/drawable/edit_radius_xl_gray_bg.xml" value="0.2615" />
         <entry key="..\:/Android/AndroidStudioProjects/Chat/app/src/main/res/drawable/edit_radius_xl_white_bg.xml" value="0.1" />
         <entry key="..\:/Android/AndroidStudioProjects/Chat/app/src/main/res/drawable/edit_radius_xlk_white_bg.xml" value="0.1685" />
@@ -27,8 +25,7 @@
         <entry key="..\:/Android/AndroidStudioProjects/Chat/app/src/main/res/layout/b_tab1_fragment.xml" value="0.264" />
         <entry key="..\:/Android/AndroidStudioProjects/Chat/app/src/main/res/layout/b_tab1_post_item.xml" value="0.2734375" />
         <entry key="..\:/Android/AndroidStudioProjects/Chat/app/src/main/res/layout/b_tab2_fragment.xml" value="0.2" />
-        <entry key="..\:/Android/AndroidStudioProjects/Chat/app/src/main/res/layout/b_tab2_hotlist.xml" value="0.2" />
-        <entry key="..\:/Android/AndroidStudioProjects/Chat/app/src/main/res/layout/b_tab3_fragment.xml" value="0.264" />
+        <entry key="..\:/Android/AndroidStudioProjects/Chat/app/src/main/res/layout/b_tab3_fragment.xml" value="0.25625" />
         <entry key="..\:/Android/AndroidStudioProjects/Chat/app/src/main/res/layout/b_tab4_dialog.xml" value="0.27447916666666666" />
         <entry key="..\:/Android/AndroidStudioProjects/Chat/app/src/main/res/layout/b_tab4_dialog_item.xml" value="0.27447916666666666" />
         <entry key="..\:/Android/AndroidStudioProjects/Chat/app/src/main/res/layout/b_tab4_fragment.xml" value="0.264" />
