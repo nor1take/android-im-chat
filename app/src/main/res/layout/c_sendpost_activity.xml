@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/gray_background"
+    android:orientation="vertical"
+    android:padding="@dimen/defaultPaddingM"
+
+    tools:context=".C_SendPost_Activity">
+
+    <ImageView
+        android:id="@+id/back_sendpost"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/space_elements_card"
+        android:src="@mipmap/ic_public_cancel" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/space_elements_card"
+        android:text="推荐标签"
+        android:textColor="@color/black_theme"
+        android:textSize="@dimen/textSizeM"
+        android:textStyle="bold" />
+
+    <HorizontalScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/edit_radius_xl_white_bg"
+        android:gravity="start"
+        android:padding="8dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <EditText
+                android:id="@+id/diy"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="@dimen/elementsMarginHorizontalM"
+                android:background="@drawable/tab_radius_l_white_bg"
+                android:hint="自定义"
+                android:paddingLeft="@dimen/elementsMarginHorizontalL"
+                android:paddingTop="@dimen/elementsMarginHorizontalM"
+                android:paddingRight="@dimen/elementsMarginHorizontalL"
+                android:paddingBottom="@dimen/elementsMarginHorizontalM"
+                android:textSize="@dimen/textSizeS" />
+
+
+            <TextView
+                android:id="@+id/read"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="@dimen/elementsMarginHorizontalM"
+                android:background="@drawable/tab_radius_l_white_bg"
+                android:paddingLeft="@dimen/elementsMarginHorizontalL"
+                android:paddingTop="@dimen/elementsMarginHorizontalM"
+                android:paddingRight="@dimen/elementsMarginHorizontalL"
+                android:paddingBottom="@dimen/elementsMarginHorizontalM"
+                android:text="文学"
+                android:textColor="@color/introduce"
+                android:textSize="@dimen/textSizeS" />
+
+            <TextView
+                android:id="@+id/sports"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="@dimen/elementsMarginHorizontalM"
+                android:background="@drawable/tab_radius_l_white_bg"
+                android:paddingLeft="@dimen/elementsMarginHorizontalL"
+                android:paddingTop="@dimen/elementsMarginHorizontalM"
+                android:paddingRight="@dimen/elementsMarginHorizontalL"
+                android:paddingBottom="@dimen/elementsMarginHorizontalM"
+                android:text="运动"
+                android:textColor="@color/introduce"
+                android:textSize="@dimen/textSizeS" />
+
+            <TextView
+                android:id="@+id/game"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="@dimen/elementsMarginHorizontalM"
+                android:background="@drawable/tab_radius_l_white_bg"
+                android:paddingLeft="@dimen/elementsMarginHorizontalL"
+                android:paddingTop="@dimen/elementsMarginHorizontalM"
+                android:paddingRight="@dimen/elementsMarginHorizontalL"
+                android:paddingBottom="@dimen/elementsMarginHorizontalM"
+                android:text="游戏"
+                android:textColor="@color/introduce"
+                android:textSize="@dimen/textSizeS" />
+        </LinearLayout>
+    </HorizontalScrollView>
+
+
+    <EditText
+        android:id="@+id/body"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/space_elements_card"
+        android:background="@drawable/edit_radius_l_white_bg"
+        android:gravity="start"
+        android:hint="9月6日，存放此刻思绪..."
+        android:minHeight="300dp"
+        android:padding="@dimen/defaultPaddingM"
+        android:textSize="@dimen/textSizeM" />
+
+    <ImageView
+        android:id="@+id/button_sendpost"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="@dimen/defaultPaddingXXL"
+        android:src="@mipmap/button_sendpost" />
+
+
+</LinearLayout>

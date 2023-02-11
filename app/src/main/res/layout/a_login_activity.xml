@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:paddingLeft="@dimen/defaultPaddingL"
+    android:paddingTop="@dimen/defaultPaddingM"
+    android:paddingRight="@dimen/defaultPaddingL"
+    android:paddingBottom="@dimen/defaultPaddingM"
+    tools:context=".A_Login_Activity">
+
+    <RelativeLayout
+        android:id="@+id/headline"
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:background="@color/black_theme">
+
+    </RelativeLayout>
+
+    <EditText
+        android:id="@+id/username_login"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="@dimen/defaultPaddingL"
+        android:background="@drawable/edit_radius_xxl_gray_bg"
+        android:gravity="center"
+        android:hint="输入账户"
+        android:padding="@dimen/defaultPaddingS"
+        android:textSize="@dimen/textSizeM" />
+
+    <EditText
+        android:id="@+id/password_login"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="@dimen/elementsMarginHorizontalL"
+        android:background="@drawable/edit_radius_xxl_gray_bg"
+        android:gravity="center"
+        android:hint="输入密码"
+        android:inputType="textPassword"
+        android:padding="@dimen/defaultPaddingS"
+        android:textSize="@dimen/textSizeM" />
+
+    <ImageView
+        android:id="@+id/enter"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="@dimen/defaultPaddingXXL"
+        android:src="@mipmap/button_login" />
+
+    <RelativeLayout
+        android:id="@+id/bottomLine"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center_horizontal">
+
+        <TextView
+            android:id="@+id/toRegister"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:text="新用户注册"
+            android:textColor="@color/black_theme"
+            android:textSize="@dimen/textSizeXS"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/splitLine"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_toRightOf="@+id/toRegister"
+            android:text="  |  "
+            android:textColor="@color/shortSplit"
+            android:textSize="@dimen/textSizeXS" />
+
+        <TextView
+            android:id="@+id/policy"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_toRightOf="@+id/splitLine"
+            android:text="服务条款"
+            android:textColor="@color/black_theme"
+            android:textSize="@dimen/textSizeXS"
+            android:textStyle="bold" />
+    </RelativeLayout>
+
+
+</LinearLayout>

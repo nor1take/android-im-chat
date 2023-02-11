@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/postContainer"
+    android:layout_gravity="center"
+    android:layout_width="match_parent"
+    android:layout_height="380dp"
+    android:background="@drawable/edit_radius_l_white_bg"
+    android:orientation="vertical"
+    android:padding="@dimen/defaultPaddingS">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_centerInParent="true"
+            android:text="# 文学"
+            android:textColor="@color/body"
+
+            android:textSize="@dimen/textSizeS"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/peopleNumber"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_centerInParent="true"
+            android:text="已有10774人参与聊天"
+            android:textColor="@color/introduce"
+            android:textSize="@dimen/textSizeXS" />
+
+    </RelativeLayout>
+
+    <TextView
+        android:id="@+id/cardText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:text="真的好感动，是因为我们的民智真的上来了吗？如果是的话，身为一个中国人，我真的无比自豪！..."
+        android:textColor="@color/black_theme"
+        android:textSize="@dimen/textSizeM"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/postTime"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentBottom="true"
+        android:text="发布于 17 分钟前"
+        android:textColor="@color/introduce"
+        android:textSize="@dimen/textSizeXS" />
+</RelativeLayout>

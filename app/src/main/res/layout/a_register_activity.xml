@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/container"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="@dimen/defaultPaddingM"
+    tools:context=".A_Register_Activity">
+
+    <TextView
+        android:id="@+id/back_register"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/defaultPaddingXXL"
+        android:drawableStart="@mipmap/ic_public_back_black"
+        android:drawablePadding="@dimen/defaultPaddingM"
+        android:text="注册"
+        android:textColor="@color/black_theme"
+        android:textSize="@dimen/textSizeXXL"
+        android:textStyle="bold" />
+
+
+    <EditText
+        android:id="@+id/username_register"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/defaultPaddingXS"
+        android:layout_marginRight="@dimen/defaultPaddingXS"
+        android:layout_marginBottom="@dimen/elementsMarginHorizontalM"
+        android:background="@drawable/edit_radius_xxl_gray_bg"
+        android:gravity="center"
+        android:hint="手机号"
+        android:padding="@dimen/defaultPaddingS"
+        android:textSize="@dimen/textSizeM" />
+
+    <EditText
+        android:id="@+id/password_register"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/defaultPaddingXS"
+        android:layout_marginRight="@dimen/defaultPaddingXS"
+        android:background="@drawable/edit_radius_xxl_gray_bg"
+        android:gravity="center"
+        android:hint="密码"
+        android:inputType="textPassword"
+        android:padding="@dimen/defaultPaddingS"
+        android:textSize="@dimen/textSizeM" />
+
+    <ImageView
+        android:id="@+id/register"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="@dimen/defaultPaddingXXL"
+        android:src="@mipmap/button_register" />
+
+</LinearLayout>

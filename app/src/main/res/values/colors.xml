@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="purple_200">#FFBB86FC</color>
+    <color name="purple_500">#FF6200EE</color>
+    <color name="purple_700">#FF3700B3</color>
+    <color name="teal_200">#FF03DAC5</color>
+    <color name="teal_700">#FF018786</color>
+    <color name="black">#FF000000</color>
+    <color name="white">#FFFFFFFF</color>
+
+
+    <!--文本-->
+        <!--一级内容、弹窗按钮文字-->
+    <color name="title">#181818</color>
+        <!--辅助内容-->
+    <color name="body">#7B7B7B</color>
+        <!--说明内容-->
+    <color name="introduce">#ACACAC</color>
+        <!--虚线或超短分割-->
+    <color name="shortSplit">#D2D2D2</color>
+        <!--分割线-->
+    <color name="split">#DDDDDD</color>
+
+    <!--颜色-->
+        <!--主题色-->
+    <color name="black_theme">#3d3d3d</color>
+    <color name="gray_background">#f1f1f1</color>
+        <!--浅色模式-->
+    <color name="red_light">#FA5151</color>
+    <color name="orange_light">#C87D2F</color>
+    <color name="yellow_light">#FFC300</color>
+    <color name="green_light">#91D300</color>
+    <color name="lightGreen_light">#95EC69</color>
+    <color name="darkGreen_light">#07c160</color>
+    <color name="blue_light">#10aeff</color>
+    <color name="darkBlue_light">#1485EE</color>
+    <color name="purple_light">#6467F0</color>
+    <color name="gray_light">#576B95</color>
+        <!--深色模式-->
+    <color name="red_dark">#FA5151</color>
+    <color name="orange_dark">#C87D2F</color>
+    <color name="yellow_dark">#CC9C00</color>
+    <color name="green_dark">#74A800</color>
+    <color name="lightGreen_dark">#3EB575</color>
+    <color name="darkGreen_dark">#07C160</color>
+    <color name="blue_dark">#10AEFF</color>
+    <color name="darkBlue_dark">#1196FF</color>
+    <color name="purple_dark">#8183FF</color>
+    <color name="gray_dark">#7D90A9</color>
+
+</resources>

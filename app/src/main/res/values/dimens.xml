@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!--屏幕边缘间隔-->
+    <dimen name="defaultPaddingXXXL">96dp</dimen>
+    <dimen name="defaultPaddingXXL">72dp</dimen>
+    <dimen name="defaultPaddingXL">48dp</dimen>
+    <dimen name="defaultPaddingL">36dp</dimen>
+    <dimen name="defaultPaddingM">24dp</dimen>
+    <dimen name="defaultPaddingS">18dp</dimen>
+    <dimen name="defaultPaddingXS">12dp</dimen>
+
+    <!--主次文本上下/左右间隔-->
+    <dimen name="textMarginVertical">2dp</dimen>
+    <dimen name="textMarginHorizontal">8dp</dimen>
+
+    <!--卡片间间隔-->
+    <dimen name="space_elements_card">12dp</dimen>
+
+    <!--所有组件  L：有明显边界元素间间隔；M：无明显边界元素间间隔-->
+    <dimen name="elementsMarginVerticalL">16dp</dimen>
+    <dimen name="elementsMarginVerticalM">8dp</dimen>
+    <dimen name="elementsMarginHorizontalL">16dp</dimen>
+    <dimen name="elementsMarginHorizontalM">8dp</dimen>
+
+    <!--圆角参数-->
+    <dimen name="radiusXXL">32dp</dimen>
+    <dimen name="radiusXL">24dp</dimen>
+    <dimen name="radiusL">16dp</dimen>
+    <dimen name="radiusM">12dp</dimen>
+    <dimen name="radiusS">8dp</dimen>
+    <dimen name="radiusXS">4dp</dimen>
+
+    <!--文字大小-->
+    <dimen name="textSizeXXXL">30sp</dimen>
+    <dimen name="textSizeXXL">24sp</dimen>
+    <dimen name="textSizeXL">20sp</dimen>
+    <dimen name="textSizeL">18sp</dimen>
+    <dimen name="textSizeM">16sp</dimen>
+    <dimen name="textSizeS">14sp</dimen>
+    <dimen name="textSizeXS">12sp</dimen>
+
+
+</resources>
