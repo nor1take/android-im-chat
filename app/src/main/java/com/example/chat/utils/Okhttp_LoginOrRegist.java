@@ -17,7 +17,7 @@ public class Okhttp_LoginOrRegist {
         String response = QuickOkhttp_Util.init(requestBody, servlet);
         if (response != null) {
             if ("登录成功".equals(response.substring(0, 4)))
-                Toast.makeText(context, response.substring(0, 4), Toast.LENGTH_SHORT).show();
+                Toast.makeText(context, "登录成功", Toast.LENGTH_SHORT).show();
             else
                 Toast.makeText(context, response, Toast.LENGTH_SHORT).show();
         } else {

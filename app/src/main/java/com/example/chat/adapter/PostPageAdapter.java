@@ -21,13 +21,19 @@ import java.util.List;
 public class PostPageAdapter extends PagerAdapter {
     private Context context;
     private List<Post> list;
-
+    private boolean isUpdate = false;
 
     private LinkedList<View> recycledViews = new LinkedList<View>();
 
     public PostPageAdapter(Context context, List<Post> list) {
         this.context = context;
         this.list = list;
+    }
+
+    public void update(List<Post> list) {
+        this.list = list;
+        isUpdate = true;
+        notifyDataSetChanged();
     }
 
     @Override
@@ -83,6 +89,10 @@ public class PostPageAdapter extends PagerAdapter {
 
     @Override
     public int getItemPosition(@NonNull Object object) {
+        if (isUpdate) {
+            isUpdate = false;
+            return POSITION_NONE;
+        }
         return super.getItemPosition(object);
     }
 

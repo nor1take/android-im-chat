@@ -23,4 +23,12 @@ public class Okhttp_Post {
     public static String getAll() {
         return QuickOkhttp_Util.init(null, "allPosts");
     }
+
+    public static String getLimitNum(int limit, int offset) {
+        RequestBody requestBody = new FormBody.Builder()
+                .add("limit", String.valueOf(limit))
+                .add("offset", String.valueOf(offset))
+                .build();
+        return QuickOkhttp_Util.init(requestBody, "limitNumPosts");
+    }
 }

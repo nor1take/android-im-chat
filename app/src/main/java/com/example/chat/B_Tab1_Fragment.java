@@ -8,6 +8,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.viewpager.widget.ViewPager;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,6 +16,7 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 
 import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONArray;
 import com.example.chat.adapter.PostPageAdapter;
 import com.example.chat.adapter.ZoomOutPageTransformer;
 import com.example.chat.pojo.Dialog;
@@ -32,16 +34,18 @@ import okhttp3.Request;
 import okhttp3.Response;
 
 public class B_Tab1_Fragment extends Fragment {
+    private final int limit = 5;
+    private static int index = 0;
+    private static boolean isClickSendBtn = false;
+
     ImageView sendPostBtn;
     ImageButton chatBtn;
 
-    String[] idList;
     private LinkedList<Post> list = new LinkedList<>();
     private List<Post> load = new ArrayList<>();
 
-    ViewPager vp;
-
-    int index = 0;
+    private ViewPager vp;
+    private PostPageAdapter postPageAdapter;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -52,70 +56,21 @@ public class B_Tab1_Fragment extends Fragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        getData();
+        initPostList();
+        Log.e("tab1", "onCreate");
     }
 
-    private void setViewPager() {
-        vp = getActivity().findViewById(R.id.vp);
-        vp.setAdapter(new PostPageAdapter(getContext(), list));
-        vp.setPageTransformer(false, new ZoomOutPageTransformer());
-
-        vp.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
-            @Override
-            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-                // Log.e("vp", "滑动中=====position:" + position + "   positionOffset:" + positionOffset + "   positionOffsetPixels:" + positionOffsetPixels);
-            }
-
-            @Override
-            public void onPageSelected(int position) {
-                if (position < index) {
-                    index = position;
-                    return;
-                }
-                index = position;
-                int size = list.size();
-                System.out.println(size);
-                if (position == (size - 3)) {
-                    new Thread(new Runnable() {
-                        @Override
-                        public void run() {
-                            if (idList.length == size) return;
-                            else if (idList.length < size + 5) {
-                                for (int i = size; i < idList.length; i++) {
-                                    load.add(JSON.parseObject(Okhttp_Post.getA(idList[i]), Post.class));
-                                }
-                            } else {
-                                for (int i = size; i < size + 5; i++) {
-                                    load.add(JSON.parseObject(Okhttp_Post.getA(idList[i]), Post.class));
-                                }
-                            }
-                        }
-                    }).start();
-                }
-                System.out.println(position);
-                if ((position + 1) % 5 == 0) {
-                    System.out.println("-----------------------------");
-                    list.addAll(load);
-                    load.clear();
-                }
-                vp.getAdapter().notifyDataSetChanged();
-            }
-
-            @Override
-            public void onPageScrollStateChanged(int state) {
-//                switch (state) {
-//                    case ViewPager.SCROLL_STATE_IDLE:
-//                        Log.e("vp", "状态改变=====SCROLL_STATE_IDLE====静止状态");
-//                        break;
-//                    case ViewPager.SCROLL_STATE_DRAGGING:
-//                        Log.e("vp", "状态改变=====SCROLL_STATE_DRAGGING==滑动状态");
-//                        break;
-//                    case ViewPager.SCROLL_STATE_SETTLING:
-//                        Log.e("vp", "状态改变=====SCROLL_STATE_SETTLING==滑翔状态");
-//                        break;
-//                }
-            }
-        });
+    @Override
+    public void onResume() {
+        super.onResume();
+        Log.e("tab1", "onResume");
+        if (isClickSendBtn) {
+            list.clear();
+            list.addAll(getLimitNumPosts(0));
+            postPageAdapter.update(list);
+            vp.setCurrentItem(0, true);
+            isClickSendBtn = false;
+        }
     }
 
     @Override
@@ -128,6 +83,7 @@ public class B_Tab1_Fragment extends Fragment {
         sendPostBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                isClickSendBtn = true;
                 startActivity(new Intent(getActivity(), C_SendPost_Activity.class));
             }
         });
@@ -155,23 +111,58 @@ public class B_Tab1_Fragment extends Fragment {
         return JSON.toJSONString(dialog);
     }
 
-    @Override
-    public void onResume() {
-        super.onResume();
-        //list.add(index, JSON.parseObject(getAPost("aPost", getAllPosts("allPosts").split("#")[0]), Post.class));
-        //vp.getAdapter().notifyDataSetChanged();
+
+    public void initPostList() {
+        list.addAll(getLimitNumPosts(0));
     }
 
-    public void getData() {
-        idList = Okhttp_Post.getAll().split("#");
-        if (idList.length < 5) {
-            for (int i = 0; i < idList.length; i++) {
-                list.add(JSON.parseObject(Okhttp_Post.getA(idList[i]), Post.class));
+    private List<Post> getLimitNumPosts(int offset) {
+        String postListJson = Okhttp_Post.getLimitNum(limit, offset);
+        JSONArray array = JSONArray.parseArray(postListJson);
+        return array.toJavaList(Post.class);
+    }
+
+    private void setViewPager() {
+        vp = getActivity().findViewById(R.id.vp);
+        postPageAdapter = new PostPageAdapter(getContext(), list);
+        vp.setAdapter(postPageAdapter);
+        vp.setPageTransformer(false, new ZoomOutPageTransformer());
+
+        vp.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageSelected(int position) {
+                if (position < index) {
+                    index = position;
+                    return;
+                }
+                index = position;
+                int size = list.size();
+                System.out.println(size);
+                if (position == (size / 2)) {
+                    new Thread(new Runnable() {
+                        @Override
+                        public void run() {
+                            load.clear();
+                            load.addAll(getLimitNumPosts(size));
+                        }
+                    }).start();
+                }
+                System.out.println(position);
+                if ((position + 1) % limit == 0) {
+                    System.out.println("-----------------------------");
+                    list.addAll(load);
+                    load.clear();
+                }
+                postPageAdapter.notifyDataSetChanged();
             }
-        } else {
-            for (int i = 0; i < 5; i++) {
-                list.add(JSON.parseObject(Okhttp_Post.getA(idList[i]), Post.class));
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
             }
-        }
+
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+            }
+        });
     }
 }
