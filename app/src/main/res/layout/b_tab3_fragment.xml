@@ -1,14 +1,41 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".B_Tab3_Fragment">
+    android:background="@drawable/edit_radius_l_white_bg"
+    android:orientation="vertical"
+    android:padding="@dimen/defaultPaddingS"
+    tools:context=".B_Tab2_Fragment">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <LinearLayout
+        android:id="@+id/friend_container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="hello_blank_fragment_tab3" />
+        android:layout_gravity="center"
+        android:orientation="vertical">
+
+        <TextView
+            android:gravity="center"
+            android:id="@+id/back_register"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/defaultPaddingXS"
+            android:drawablePadding="@dimen/defaultPaddingM"
+            android:text="好友"
+            android:textColor="@color/black_theme"
+            android:textSize="@dimen/textSizeL"
+            android:textStyle="bold" />
+
+        <ListView
+            android:id="@+id/friend_list_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+        </ListView>
+
+    </LinearLayout>
+
 
 </FrameLayout>

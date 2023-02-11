@@ -13,6 +13,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.chat.utils.Application_Util;
 import com.example.chat.utils.QuickOkhttp_Util;
 
 import okhttp3.FormBody;
@@ -26,16 +27,15 @@ public class C_SendPost_Activity extends AppCompatActivity implements View.OnCli
     int id;
     private int[] labels = new int[]{R.id.diy, R.id.read, R.id.sports, R.id.game};
 
-    boolean isdiy = false;
+    boolean isDiy = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.c_sendpost_activity);
 
-
-        final SharedPreferences sp = getSharedPreferences("userinfo_sp", MODE_MULTI_PROCESS);
-        id = sp.getInt("id", -1);//获取用户id
+        Application_Util application = (Application_Util) getApplication();
+        id = application.getUid();
 
         //返回
         ImageView imageView = findViewById(R.id.back_sendpost);
@@ -52,14 +52,14 @@ public class C_SendPost_Activity extends AppCompatActivity implements View.OnCli
             @Override
             public void onFocusChange(View view, boolean isFocus) {
                 if (isFocus) {
-                    isdiy = true;
+                    isDiy = true;
                     labelText = diy.getText().toString();
                     diy.setBackgroundResource(R.drawable.tab_radius_l_blacktheme_bg);
                     diy.setTextColor(getResources().getColor(R.color.white));
                     //diy.setHintTextColor(R.color.white);
                     changeTab(R.id.diy);
                 } else {
-                    if (isdiy)
+                    if (isDiy)
                         labelText = diy.getText().toString();
                 }
             }
@@ -109,7 +109,7 @@ public class C_SendPost_Activity extends AppCompatActivity implements View.OnCli
     }
 
     void handleLabel(int id) {
-        if (id != R.id.diy) isdiy = false;
+        if (id != R.id.diy) isDiy = false;
         TextView label = findViewById(id);
         label.setBackgroundResource(R.drawable.tab_radius_l_blacktheme_bg);
         label.setTextColor(getResources().getColor(R.color.white));

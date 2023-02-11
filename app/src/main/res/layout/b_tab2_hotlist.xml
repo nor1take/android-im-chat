@@ -1,0 +1,195 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:id="@+id/literature"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/hotLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/textMarginHorizontal"
+            android:layout_marginBottom="@dimen/textMarginHorizontal"
+            android:text="文学"
+            android:textSize="@dimen/textSizeL"
+            android:textStyle="bold" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/textMarginHorizontal"
+                android:background="@drawable/edit_radius_m_white_bg"
+                android:orientation="horizontal"
+                android:paddingRight="@dimen/textMarginHorizontal"
+                android:weightSum="1">
+
+                <TextView
+                    android:id="@+id/hotOne"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.9"
+                    android:ellipsize="end"
+                    android:lines="2"
+                    android:paddingStart="@dimen/defaultPaddingS"
+                    android:paddingEnd="@dimen/defaultPaddingXS"
+                    android:paddingBottom="24dp"
+                    android:text="　鲁迅“不正经的伟大”的说法出自解志熙教授在“鲁迅研究与现代文学史书写——张恩和先生学术思想研讨会暨北京师范大学鲁迅研究中心挂牌仪式”上的发言。"
+                    />
+
+                <ImageButton
+                    android:id="@+id/button_chat1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/defaultPaddingS"
+                    android:background="@mipmap/ic_public_comments" />
+
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/hotValue1"
+                android:layout_width="match_parent"
+                android:layout_height="64dp"
+                android:alpha="0.6"
+                android:orientation="horizontal"
+
+                android:weightSum="1">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="0.08"
+                    android:background="@drawable/edit_radius_m_red_bg"
+                    android:orientation="horizontal" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent" />
+            </LinearLayout>
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/textMarginHorizontal"
+                android:orientation="horizontal"
+                android:paddingRight="@dimen/textMarginHorizontal"
+                android:weightSum="1">
+
+                <TextView
+                    android:id="@+id/hotTwo"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.9"
+
+                    android:ellipsize="end"
+                    android:lines="2"
+                    android:paddingStart="@dimen/defaultPaddingS"
+                    android:paddingEnd="@dimen/defaultPaddingXS"
+                    android:paddingBottom="24dp"
+                    android:text="　鲁迅“不正经的伟大”的说法出自解志熙教授在“鲁迅研究与现代文学史书写——张恩和先生学术思想研讨会暨北京师范大学鲁迅研究中心挂牌仪式”上的发言。" />
+
+                <ImageButton
+                    android:id="@+id/button_chat2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/defaultPaddingS"
+                    android:background="@mipmap/ic_public_comments" />
+
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/hotValue2"
+                android:layout_width="match_parent"
+                android:layout_height="64dp"
+                android:alpha="0.45"
+                android:orientation="horizontal"
+                android:weightSum="1">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="0.4"
+                    android:background="@drawable/edit_radius_m_red_bg"
+                    android:orientation="horizontal" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent" />
+            </LinearLayout>
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:paddingRight="@dimen/textMarginHorizontal"
+                android:weightSum="1">
+
+                <TextView
+                    android:id="@+id/hotThree"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.9"
+                    android:ellipsize="end"
+                    android:lines="2"
+                    android:paddingStart="@dimen/defaultPaddingS"
+                    android:paddingEnd="@dimen/defaultPaddingXS"
+                    android:paddingBottom="24dp"
+                    android:text="     " />
+
+                <ImageButton
+                    android:id="@+id/button_chat3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/defaultPaddingS"
+                    android:background="@mipmap/ic_public_comments" />
+
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/hotValue3"
+                android:layout_width="match_parent"
+                android:layout_height="64dp"
+                android:alpha="0.3"
+                android:orientation="horizontal"
+                android:weightSum="1">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="0.6"
+                    android:background="@drawable/edit_radius_m_red_bg"
+                    android:orientation="horizontal" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent" />
+            </LinearLayout>
+        </RelativeLayout>
+
+
+    </LinearLayout>
+
+</LinearLayout>

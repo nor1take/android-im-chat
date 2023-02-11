@@ -21,8 +21,7 @@
         android:background="@drawable/edit_radius_l_white_bg"
         android:orientation="vertical"
         android:paddingLeft="@dimen/defaultPaddingXS"
-        android:paddingRight="@dimen/defaultPaddingXS"
-        >
+        android:paddingRight="@dimen/defaultPaddingXS">
 
         <TextView
             android:id="@+id/label"
@@ -47,7 +46,6 @@
         android:layout_weight="1"
         android:orientation="vertical">
 
-
         <ListView
             android:id="@+id/msg_list_view"
             android:layout_width="match_parent"
@@ -59,20 +57,39 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:background="@color/white"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:paddingTop="@dimen/defaultPaddingXS"
+        android:paddingBottom="@dimen/defaultPaddingXS"
+        android:paddingLeft="@dimen/defaultPaddingS"
+        android:paddingRight="@dimen/defaultPaddingS">
+        <ImageView
+            android:id="@+id/addFriend"
+            android:layout_width="28dp"
+            android:layout_height="28dp"
+            android:layout_marginRight="@dimen/defaultPaddingS"
+            android:scaleType="fitXY"
+            android:src="@mipmap/ic_contacts_addcontact" />
 
         <EditText
             android:id="@+id/input"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1" />
+            android:layout_weight="1"
+            android:background="@drawable/edit_radius_xxl_gray_bg"
+            android:paddingLeft="@dimen/defaultPaddingXS"
+            android:paddingTop="@dimen/elementsMarginVerticalM"
+            android:paddingRight="@dimen/defaultPaddingXS"
+            android:paddingBottom="@dimen/elementsMarginVerticalM"
+            android:textSize="@dimen/textSizeM" />
 
-        <Button
+        <ImageView
             android:id="@+id/sendBtn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="发送" />
+            android:layout_width="28dp"
+            android:layout_height="28dp"
+            android:layout_marginLeft="@dimen/defaultPaddingS"
+            android:scaleType="fitXY"
+            android:src="@mipmap/ic_public_send" />
     </LinearLayout>
-
-
 </LinearLayout>

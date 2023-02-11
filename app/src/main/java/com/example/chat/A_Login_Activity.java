@@ -7,7 +7,6 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
-import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -28,9 +27,9 @@ public class A_Login_Activity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
         application = (Application_Util) getApplication();
 
-        super.onCreate(savedInstanceState);
         setContentView(R.layout.a_login_activity);
         TextView register = findViewById(R.id.toRegister);
         ImageView login = findViewById(R.id.enter);
@@ -40,10 +39,6 @@ public class A_Login_Activity extends AppCompatActivity {
         //获取SharedPreferences对象
         final SharedPreferences sp = getSharedPreferences("userinfo_sp", MODE_MULTI_PROCESS);
         /*******实现自动登录功能*******/
-        id = sp.getInt("id", -1); //获取用户id
-
-        application.setUid(id); //设置全局变量 uid
-
         username = sp.getString("username", null);//获取账号信息
         password = sp.getString("password", null);//获取密码
         if (username != null && password != null) {
@@ -52,6 +47,9 @@ public class A_Login_Activity extends AppCompatActivity {
             String resp = Okhttp_LoginOrRegist.init(username, password, Okhttp_LoginOrRegist.LOGIN, A_Login_Activity.this);
             if (resp != null)
                 if ("登录成功".equals(resp.substring(0, 4))) {
+                    String s_id = resp.substring(4);
+                    id = Integer.parseInt(s_id);
+                    application.setUid(id); //设置全局变量 uid
                     startActivity(new Intent(A_Login_Activity.this, B_Container_Activity.class));
                 }
         }
@@ -76,11 +74,9 @@ public class A_Login_Activity extends AppCompatActivity {
                         if ("登录成功".equals(resp.substring(0, 4))) {
                             String s_id = resp.substring(4);
                             id = Integer.parseInt(s_id);
-
                             application.setUid(id); //设置全局变量 uid
 
                             sp.edit()
-                                    .putInt("id", id)
                                     .putString("username", username)
                                     .putString("password", password)
                                     .commit();

@@ -7,11 +7,15 @@
         <entry key="..\:/Android/AndroidStudioProjects/Chat/app/src/main/res/drawable/button_radius_l_black_bg.xml" value="0.194" />
         <entry key="..\:/Android/AndroidStudioProjects/Chat/app/src/main/res/drawable/chat_black_bg.xml" value="0.2275" />
         <entry key="..\:/Android/AndroidStudioProjects/Chat/app/src/main/res/drawable/chat_white_bg.xml" value="0.2275" />
+        <entry key="..\:/Android/AndroidStudioProjects/Chat/app/src/main/res/drawable/edit_radius_l_white_bg.xml" value="0.1295" />
+        <entry key="..\:/Android/AndroidStudioProjects/Chat/app/src/main/res/drawable/edit_radius_m_red_bg.xml" value="0.1" />
+        <entry key="..\:/Android/AndroidStudioProjects/Chat/app/src/main/res/drawable/edit_radius_m_white_bg.xml" value="0.1" />
         <entry key="..\:/Android/AndroidStudioProjects/Chat/app/src/main/res/drawable/edit_radius_xl_gray_bg.xml" value="0.2615" />
         <entry key="..\:/Android/AndroidStudioProjects/Chat/app/src/main/res/drawable/edit_radius_xl_white_bg.xml" value="0.1" />
         <entry key="..\:/Android/AndroidStudioProjects/Chat/app/src/main/res/drawable/edit_radius_xlk_white_bg.xml" value="0.1685" />
         <entry key="..\:/Android/AndroidStudioProjects/Chat/app/src/main/res/drawable/edit_radius_xxl_gray_bg.xml" value="0.1685" />
         <entry key="..\:/Android/AndroidStudioProjects/Chat/app/src/main/res/drawable/ic_launcher_background.xml" value="0.194" />
+        <entry key="..\:/Android/AndroidStudioProjects/Chat/app/src/main/res/drawable/msg_add_radius_xxl_dark_gray_bg.xml" value="0.1295" />
         <entry key="..\:/Android/AndroidStudioProjects/Chat/app/src/main/res/drawable/tab_radius_l_blacktheme_bg.xml" value="0.1605" />
         <entry key="..\:/Android/AndroidStudioProjects/Chat/app/src/main/res/drawable/tab_radius_l_white_bg.xml" value="0.194" />
         <entry key="..\:/Android/AndroidStudioProjects/Chat/app/src/main/res/layout/a_login.xml" value="0.26621847886098404" />
@@ -22,12 +26,13 @@
         <entry key="..\:/Android/AndroidStudioProjects/Chat/app/src/main/res/layout/b_container_activity.xml" value="0.10781445883827831" />
         <entry key="..\:/Android/AndroidStudioProjects/Chat/app/src/main/res/layout/b_tab1_fragment.xml" value="0.264" />
         <entry key="..\:/Android/AndroidStudioProjects/Chat/app/src/main/res/layout/b_tab1_post_item.xml" value="0.2734375" />
-        <entry key="..\:/Android/AndroidStudioProjects/Chat/app/src/main/res/layout/b_tab2_fragment.xml" value="0.2033514492753623" />
-        <entry key="..\:/Android/AndroidStudioProjects/Chat/app/src/main/res/layout/b_tab3_fragment.xml" value="0.25625" />
+        <entry key="..\:/Android/AndroidStudioProjects/Chat/app/src/main/res/layout/b_tab2_fragment.xml" value="0.2" />
+        <entry key="..\:/Android/AndroidStudioProjects/Chat/app/src/main/res/layout/b_tab2_hotlist.xml" value="0.2" />
+        <entry key="..\:/Android/AndroidStudioProjects/Chat/app/src/main/res/layout/b_tab3_fragment.xml" value="0.264" />
         <entry key="..\:/Android/AndroidStudioProjects/Chat/app/src/main/res/layout/b_tab4_dialog.xml" value="0.27447916666666666" />
         <entry key="..\:/Android/AndroidStudioProjects/Chat/app/src/main/res/layout/b_tab4_dialog_item.xml" value="0.27447916666666666" />
         <entry key="..\:/Android/AndroidStudioProjects/Chat/app/src/main/res/layout/b_tab4_fragment.xml" value="0.264" />
-        <entry key="..\:/Android/AndroidStudioProjects/Chat/app/src/main/res/layout/c_chat_activity.xml" value="0.2891566265060241" />
+        <entry key="..\:/Android/AndroidStudioProjects/Chat/app/src/main/res/layout/c_chat_activity.xml" value="0.1" />
         <entry key="..\:/Android/AndroidStudioProjects/Chat/app/src/main/res/layout/c_chat_message_item.xml" value="0.264" />
         <entry key="..\:/Android/AndroidStudioProjects/Chat/app/src/main/res/layout/c_chat_msg_item.xml" value="0.1" />
         <entry key="..\:/Android/AndroidStudioProjects/Chat/app/src/main/res/layout/c_sendpost_activity.xml" value="0.1" />

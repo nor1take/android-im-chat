@@ -24,6 +24,7 @@ import com.example.chat.pojo.Dialog;
 import com.example.chat.pojo.Msg;
 import com.example.chat.pojo.MyMessage;
 import com.example.chat.utils.Application_Util;
+import com.example.chat.utils.Notice_Util;
 import com.example.chat.utils.QuickOkhttp_Util;
 
 import java.io.BufferedReader;
@@ -65,7 +66,7 @@ public class B_Tab4_Fragment extends Fragment {
                 dialog.setFrom(dialog.getTo());
                 dialog.setTo(tmp);
             }
-            map.put(dialog.getFrom(), indexOfList);
+            map.put(dialog.getFrom() + dialog.getPostId(), indexOfList);
             indexOfList++;
             dialogList.add(dialog);
         }
@@ -152,6 +153,7 @@ public class B_Tab4_Fragment extends Fragment {
             while (isRunning) {
                 if ((data = application.getData()) != null) {
                     System.out.println(">>>>>>>>>>>>>>>>>>>>>" + data);
+                    if (data.indexOf("#") == -1) return;
                     /**
                      * 4用户#postId@1用户:content
                      */
@@ -162,10 +164,12 @@ public class B_Tab4_Fragment extends Fragment {
                     String[] split2 = split1[1].split(":", 2);
                     String to = split2[0];
                     String content = split2[1];
-                    if (map.containsKey(from)) {
-                        dialogList.get(map.get(from)).setMessage(content);
+                    // Notice_Util.init(data, getContext());
+                    new Thread(new Notice_Util(data, getContext())).start();
+                    if (map.containsKey(from + postId)) {
+                        dialogList.get(map.get(from + postId)).setMessage(content);
                     } else {
-                        map.put(from, indexOfList);
+                        map.put(from + postId, indexOfList);
                         indexOfList++;
                         Dialog dialog = new Dialog(Integer.parseInt(postId), from, to, content);
                         dialogList.add(dialog);

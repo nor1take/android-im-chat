@@ -20,7 +20,28 @@ public class Application_Util extends Application {
     private BufferedReader brClient;
     private BufferedWriter bwServer;
     private int uid;
-    String data;
+    private String data;
+
+    // 用于 addFriend
+    private int to;
+    private int postId;
+
+    public int getPostId() {
+        return postId;
+    }
+
+    public void setPostId(int postId) {
+        this.postId = postId;
+    }
+
+
+    public int getTo() {
+        return to;
+    }
+
+    public void setTo(int to) {
+        this.to = to;
+    }
 
     public void init() {
         Thread open = new Thread(new Runnable() {

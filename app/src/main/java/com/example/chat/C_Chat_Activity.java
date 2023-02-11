@@ -3,17 +3,19 @@ package com.example.chat;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
@@ -37,9 +39,8 @@ import okhttp3.FormBody;
 import okhttp3.RequestBody;
 
 public class C_Chat_Activity extends AppCompatActivity implements View.OnClickListener {
-    final String ip = "https://n58770595y.zicp.fun/AndroidServe/";
-
-    Button sendButton;
+    ImageView sendButton;
+    ImageView addFriend;
     EditText input;
     TextView connectInfo;
     TextView lable;
@@ -60,22 +61,29 @@ public class C_Chat_Activity extends AppCompatActivity implements View.OnClickLi
     private Post post;
     private String postJson;
 
+    @Override
+    protected void onPause() {
+        super.onPause();
+        isRunning = false; // 关闭之前的receiveMsg线程
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.c_chat_activity);
 
-        application = (Application_Util) getApplication();
-
-        isRunning = false; // 关闭之前的receiveMsg线程
         msgList.clear();
+        application = (Application_Util) getApplication();
         System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> onCreate");
         isRunning = true;
 
         Intent intent = getIntent();
+        Log.e("intent", intent.getExtras().toString());
         Bundle bundle = intent.getExtras();
         String chatGroup = bundle.getString("chatGroup");
+
+        Log.e("chatGroup", chatGroup);
+
         initMsgList(chatGroup);
 
         postJson = bundle.getString("PostInfo");
@@ -85,8 +93,13 @@ public class C_Chat_Activity extends AppCompatActivity implements View.OnClickLi
         } else {
             receiverId = bundle.getInt("receiverId");
             int postId = bundle.getInt("postId");
+
+            Log.e("receiverId", String.valueOf(receiverId));
+            Log.e("postId", String.valueOf(postId));
+
             post = JSON.parseObject(Okhttp_Post.getA(String.valueOf(postId)), Post.class);
         }
+        addFriend = findViewById(R.id.addFriend);
         sendButton = findViewById(R.id.sendBtn);
         input = findViewById(R.id.input);
         connectInfo = findViewById(R.id.connectInfo);
@@ -104,6 +117,7 @@ public class C_Chat_Activity extends AppCompatActivity implements View.OnClickLi
         msgListView.setAdapter(adapter);
 
         sendButton.setOnClickListener(this);
+        addFriend.setOnClickListener(this);
 
         handler = new Handler() {
             @Override
@@ -133,7 +147,67 @@ public class C_Chat_Activity extends AppCompatActivity implements View.OnClickLi
             }
         });
 
+        input.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if (input.getText().toString().length() > 0)
+                    sendButton.setImageResource(R.mipmap.ic_public_send_filled);
+                else sendButton.setImageResource(R.mipmap.ic_public_send);
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+
+        // "#" + post.getId() + "@" + receiverId + "用户:" + message
+        application.setPostId(post.getId());
+        application.setTo(receiverId);
+
         startThread();
+    }
+
+    @Override
+    public void onClick(View v) {
+        if (v == findViewById(R.id.sendBtn)) {
+            message = input.getText().toString();
+            if (!"".equals(message)) {
+                Msg msg = new Msg(message, Msg.TYPE_SENT);
+                msgList.add(msg);
+                adapter.updateListView(msgList); // 刷新ListView中的显示
+                msgListView.setSelection(msgList.size()); // 将ListView定位到最后一行
+                String s = msgOkhttp(input.getText().toString());
+                System.out.println(s);
+            }
+            input.setText("");
+        } else if (v == findViewById(R.id.addFriend)) {
+            if (isHavingFriend()) {
+                Toast.makeText(this, "对方已经你的好友", Toast.LENGTH_SHORT).show();
+            } else {
+                Msg msg = new Msg("  你向对方发起了好友请求  #隐藏", Msg.TYPE_ADD);
+                msgList.add(msg);
+                adapter.updateListView(msgList); // 刷新ListView中的显示
+                msgListView.setSelection(msgList.size()); // 将ListView定位到最后一行
+                message = "*对方向你发起了好友请求";
+            }
+
+        }
+    }
+
+    private boolean isHavingFriend() {
+        RequestBody requestBody = new FormBody.Builder()
+                .add("uid", String.valueOf(application.getUid()))
+                .add("friendId", String.valueOf(receiverId))
+                .build();
+        String response = QuickOkhttp_Util.init(requestBody, "aFriend");
+        System.out.println(response);
+        return response == null ? false : (response.equals("y"));
     }
 
     private void initMsgList(String chatGroup) {
@@ -154,21 +228,6 @@ public class C_Chat_Activity extends AppCompatActivity implements View.OnClickLi
         }
     }
 
-    @Override
-    public void onClick(View v) {
-        if (v == findViewById(R.id.sendBtn)) {
-            message = input.getText().toString();
-            if (!"".equals(message)) {
-                Msg msg = new Msg(message, Msg.TYPE_SENT);
-                msgList.add(msg);
-                adapter.updateListView(msgList); // 当有新消息时，刷新ListView中的显示
-                msgListView.setSelection(msgList.size()); // 将ListView定位到最后一行
-                String s = msgOkhttp();
-                System.out.println(s);
-            }
-            input.setText("");
-        }
-    }
 
     private void startThread() {
         getSocket();
@@ -191,7 +250,18 @@ public class C_Chat_Activity extends AppCompatActivity implements View.OnClickLi
                      * 4用户#postId@1用户:content
                      */
                     String[] split = data.split("#", 2)[1].split("@", 2)[1].split(":", 2);
-                    Msg msg = new Msg(split[1], Msg.TYPE_RECEIVED);
+                    String content = split[1];
+                    Msg msg;
+                    if (content.startsWith("*")) {
+                        if (content.equals("*对方向你发起了好友请求")) {
+                            msg = new Msg("  对方向你发起了好友请求  #接受", Msg.TYPE_ADD);
+                        } else {
+                            msg = new Msg("  " + content.substring(1) + "  #隐藏", Msg.TYPE_ADD);
+                        }
+                    } else {
+                        msg = new Msg(content, Msg.TYPE_RECEIVED);
+                    }
+
                     msgList.add(msg);
                     handler.sendEmptyMessage(0);
                 }
@@ -225,7 +295,7 @@ public class C_Chat_Activity extends AppCompatActivity implements View.OnClickLi
         msgListView.setSelection(msgList.size()); // 将ListView定位到最后一行
     }
 
-    private String msgOkhttp() {
+    private String msgOkhttp(String message) {
         int senderId = application.getUid();
         Integer postId = post.getId();
 
@@ -237,7 +307,7 @@ public class C_Chat_Activity extends AppCompatActivity implements View.OnClickLi
                 "...");
         RequestBody requestBody = new FormBody.Builder()
                 .add("senderId", String.valueOf(senderId))
-                .add("message", input.getText().toString())
+                .add("message", message)
                 .add("receiverId", String.valueOf(receiverId))
                 .add("postId", String.valueOf(postId))
                 .add("chatGroup", JSON.toJSONString(dialog))

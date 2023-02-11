@@ -5,13 +5,14 @@ import okhttp3.RequestBody;
 public class QuickOkhttp_Util {
     /**
      *
-     * @param requestBody null 或
-     * RequestBody requestBody = new FormBody.Builder()
-     *         .add("senderId", String.valueOf(application.getUid()))
-     *         .add("message", input.getText().toString())
-     *         .add("receiverId", String.valueOf(receiverUID))
-     *         .add("postId", String.valueOf(post.getId()))
-     *         .build();
+     * @param requestBody
+     * null 或
+      RequestBody requestBody = new FormBody.Builder()
+              .add("senderId", String.valueOf(application.getUid()))
+              .add("message", input.getText().toString())
+              .add("receiverId", String.valueOf(receiverUID))
+              .add("postId", String.valueOf(post.getId()))
+              .build();
      * @param servlet 后缀
      * @return String 服务器响应
      */

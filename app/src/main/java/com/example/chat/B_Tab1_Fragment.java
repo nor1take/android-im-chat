@@ -24,14 +24,9 @@ import com.example.chat.pojo.Post;
 import com.example.chat.utils.Application_Util;
 import com.example.chat.utils.Okhttp_Post;
 
-import java.net.Socket;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
-
-import okhttp3.OkHttpClient;
-import okhttp3.Request;
-import okhttp3.Response;
 
 public class B_Tab1_Fragment extends Fragment {
     private final int limit = 5;
@@ -138,7 +133,7 @@ public class B_Tab1_Fragment extends Fragment {
                 index = position;
                 int size = list.size();
                 System.out.println(size);
-                if (position == (size / 2)) {
+                if (position == (size - limit / 2)) {
                     new Thread(new Runnable() {
                         @Override
                         public void run() {
