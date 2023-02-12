@@ -24,14 +24,9 @@ import com.example.chat.pojo.Post;
 import com.example.chat.utils.Application_Util;
 import com.example.chat.utils.Okhttp_Post;
 
-import java.net.Socket;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
-
-import okhttp3.OkHttpClient;
-import okhttp3.Request;
-import okhttp3.Response;
 
 public class B_Tab1_Fragment extends Fragment {
     private final int limit = 5;

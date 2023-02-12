@@ -70,10 +70,12 @@ public class MsgAdapter extends ArrayAdapter<Msg> {
                     String response = sendMsg.addFriend();
                     if (response == null)
                         Toast.makeText(getContext(), "请求服务器失败", Toast.LENGTH_SHORT).show();
-                    if ("success".equals(response)) {
+                    else if ("success".equals(response)) {
                         Toast.makeText(getContext(), "成功添加对方为好友", Toast.LENGTH_LONG).show();
                         sendMsg.setMessage("*对方接受了你的请求，现在你们是好友了");
                         new Thread(sendMsg).start();
+                    } else if ("exist".equals(response)) {
+                        Toast.makeText(getContext(), "对方已经是你的好友", Toast.LENGTH_SHORT).show();
                     }
                 }
             }

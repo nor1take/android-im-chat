@@ -21,8 +21,8 @@ public class Application_Util extends Application {
     private BufferedWriter bwServer;
     private int uid;
     private String data;
-    // 用于 addFriend
 
+    // 用于 addFriend
     private int to;
     private int postId;
 

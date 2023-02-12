@@ -7,11 +7,8 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
-import com.alibaba.fastjson.JSON;
 import com.example.chat.R;
 import com.example.chat.pojo.Dialog;
-import com.example.chat.pojo.Post;
-import com.example.chat.utils.Okhttp_Post;
 
 import java.util.List;
 
