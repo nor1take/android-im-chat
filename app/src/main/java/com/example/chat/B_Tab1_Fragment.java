@@ -22,7 +22,9 @@ import com.example.chat.adapter.ZoomOutPageTransformer;
 import com.example.chat.pojo.Dialog;
 import com.example.chat.pojo.Post;
 import com.example.chat.utils.Application_Util;
+import com.example.chat.utils.Code;
 import com.example.chat.utils.Okhttp_Post;
+import com.example.chat.utils.Result;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
@@ -112,7 +114,10 @@ public class B_Tab1_Fragment extends Fragment {
     }
 
     private List<Post> getLimitNumPosts(int offset) {
-        String postListJson = Okhttp_Post.getLimitNum(limit, offset);
+        //String postListJson = Okhttp_Post.getLimitNum(limit, offset);
+        Result result = Okhttp_Post.getLimitNum(limit, offset, getContext());
+        if (!result.getCode().equals(Code.GET_OK)) return null;
+        String postListJson = result.getData().toString();
         JSONArray array = JSONArray.parseArray(postListJson);
         return array.toJavaList(Post.class);
     }

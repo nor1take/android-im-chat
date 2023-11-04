@@ -1,5 +1,7 @@
 package com.example.chat;
 
+import static com.example.chat.utils.RequestMapping.send;
+
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.annotation.SuppressLint;
@@ -13,8 +15,11 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.alibaba.fastjson.JSON;
 import com.example.chat.utils.Application_Util;
+import com.example.chat.utils.Code;
 import com.example.chat.utils.QuickOkhttp_Util;
+import com.example.chat.utils.Result;
 
 import okhttp3.FormBody;
 import okhttp3.RequestBody;
@@ -72,14 +77,16 @@ public class C_SendPost_Activity extends AppCompatActivity implements View.OnCli
         button_sendpost.setOnClickListener(this);
     }
 
-    private String sendPostOkhttp() {
+    private Result sendPostOkhttp() {
         RequestBody requestBody = new FormBody.Builder()
                 .add("poster", String.valueOf(id))
                 .add("label", labelText)
                 .add("peopleNum", "0")
                 .add("body", bodyText)
                 .build();
-        return QuickOkhttp_Util.init(requestBody, "send");
+        return QuickOkhttp_Util.init(requestBody, send, C_SendPost_Activity.this);
+
+
     }
 
     //点击更换标签背景
@@ -99,11 +106,10 @@ public class C_SendPost_Activity extends AppCompatActivity implements View.OnCli
             if ("".equals(labelText) || labelText == null || "".equals(bodyText) || bodyText == null) {
                 Toast.makeText(this, "标签或内容不能为空", Toast.LENGTH_SHORT).show();
             } else {
-                String response = sendPostOkhttp();
-                if (response != null) {
-                    Toast.makeText(this, response, Toast.LENGTH_SHORT).show();
+                Result result = sendPostOkhttp();
+                if (result.getCode().equals(Code.SAVE_OK)) {
                     finish();
-                } else Toast.makeText(this, "请求服务器失败", Toast.LENGTH_SHORT).show();
+                }
             }
         }
     }

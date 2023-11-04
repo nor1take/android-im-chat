@@ -1,5 +1,7 @@
 package com.example.chat.adapter;
 
+import static com.example.chat.utils.RequestMapping.friendAdd;
+
 import android.app.Activity;
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -10,10 +12,13 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.chat.C_Chat_Activity;
 import com.example.chat.R;
 import com.example.chat.pojo.Msg;
 import com.example.chat.utils.Application_Util;
+import com.example.chat.utils.Code;
 import com.example.chat.utils.QuickOkhttp_Util;
+import com.example.chat.utils.Result;
 
 import java.io.BufferedWriter;
 import java.io.IOException;
@@ -67,15 +72,11 @@ public class MsgAdapter extends ArrayAdapter<Msg> {
                 notifyDataSetChanged();
                 if (option.equals("接受")) {
                     sendMsg sendMsg = new sendMsg((Activity) getContext());
-                    String response = sendMsg.addFriend();
-                    if (response == null)
-                        Toast.makeText(getContext(), "请求服务器失败", Toast.LENGTH_SHORT).show();
-                    else if ("success".equals(response)) {
-                        Toast.makeText(getContext(), "成功添加对方为好友", Toast.LENGTH_LONG).show();
+
+                    Result result = sendMsg.addFriend();
+                    if (result.getCode().equals(Code.SAVE_OK)) {
                         sendMsg.setMessage("*对方接受了你的请求，现在你们是好友了");
                         new Thread(sendMsg).start();
-                    } else if ("exist".equals(response)) {
-                        Toast.makeText(getContext(), "对方已经是你的好友", Toast.LENGTH_SHORT).show();
                     }
                 }
             }
@@ -149,12 +150,12 @@ public class MsgAdapter extends ArrayAdapter<Msg> {
             send();
         }
 
-        public String addFriend() {
+        public Result addFriend() {
             RequestBody requestBody = new FormBody.Builder()
                     .add("uid", String.valueOf(application.getUid()))
                     .add("friendId", String.valueOf(to))
                     .build();
-            return QuickOkhttp_Util.init(requestBody, "friendAdd");
+            return QuickOkhttp_Util.init(requestBody, friendAdd, getContext());
         }
     }
 

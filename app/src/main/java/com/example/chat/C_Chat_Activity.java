@@ -1,5 +1,7 @@
 package com.example.chat;
 
+import static com.example.chat.utils.RequestMapping.aFriend;
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -25,7 +27,10 @@ import com.example.chat.pojo.Msg;
 import com.example.chat.pojo.MyMessage;
 import com.example.chat.pojo.Post;
 import com.example.chat.utils.Application_Util;
+import com.example.chat.utils.Code;
 import com.example.chat.utils.Font_Util;
+import com.example.chat.utils.RequestMapping;
+import com.example.chat.utils.Result;
 import com.example.chat.utils.SoftKeyBoardListener;
 import com.example.chat.utils.Okhttp_Post;
 import com.example.chat.utils.QuickOkhttp_Util;
@@ -97,7 +102,13 @@ public class C_Chat_Activity extends AppCompatActivity implements View.OnClickLi
             Log.e("receiverId", String.valueOf(receiverId));
             Log.e("postId", String.valueOf(postId));
 
-            post = JSON.parseObject(Okhttp_Post.getA(String.valueOf(postId)), Post.class);
+
+            //post = JSON.parseObject(Okhttp_Post.getA(String.valueOf(postId)), Post.class);
+            Result result = Okhttp_Post.getA(String.valueOf(postId), C_Chat_Activity.this);
+
+            if (result.getCode().equals(Code.GET_OK)) {
+                post = JSON.parseObject(result.getData().toString(), Post.class);
+            }
         }
         addFriend = findViewById(R.id.addFriend);
         sendButton = findViewById(R.id.sendBtn);
@@ -182,8 +193,7 @@ public class C_Chat_Activity extends AppCompatActivity implements View.OnClickLi
                 msgList.add(msg);
                 adapter.updateListView(msgList); // 刷新ListView中的显示
                 msgListView.setSelection(msgList.size()); // 将ListView定位到最后一行
-                String s = msgOkhttp(input.getText().toString());
-                System.out.println(s);
+                sendMsgOkhttp(input.getText().toString());
             }
             input.setText("");
         } else if (v == findViewById(R.id.addFriend)) {
@@ -205,9 +215,9 @@ public class C_Chat_Activity extends AppCompatActivity implements View.OnClickLi
                 .add("uid", String.valueOf(application.getUid()))
                 .add("friendId", String.valueOf(receiverId))
                 .build();
-        String response = QuickOkhttp_Util.init(requestBody, "aFriend");
-        System.out.println(response);
-        return response == null ? false : (response.equals("y"));
+        Result result = QuickOkhttp_Util.init(requestBody, aFriend, C_Chat_Activity.this);
+
+        return result == null ? false : result.getCode().equals(Code.GET_OK);
     }
 
     private void initMsgList(String chatGroup) {
@@ -215,8 +225,8 @@ public class C_Chat_Activity extends AppCompatActivity implements View.OnClickLi
         RequestBody requestBody = new FormBody.Builder()
                 .add("chatGroup", chatGroup)
                 .build();
-        String allMsgs = QuickOkhttp_Util.init(requestBody, "allMsgs");
-        Log.e("allMsgs", allMsgs);
+        Result result = QuickOkhttp_Util.init(requestBody, RequestMapping.allMsgs, C_Chat_Activity.this);
+        String allMsgs = result.getData().toString();
         JSONArray array = JSONArray.parseArray(allMsgs);
         List<MyMessage> messagesList = array.toJavaList(MyMessage.class);
         for (MyMessage myMessage : messagesList) {
@@ -295,7 +305,7 @@ public class C_Chat_Activity extends AppCompatActivity implements View.OnClickLi
         msgListView.setSelection(msgList.size()); // 将ListView定位到最后一行
     }
 
-    private String msgOkhttp(String message) {
+    private Result sendMsgOkhttp(String message) {
         int senderId = application.getUid();
         Integer postId = post.getId();
 
@@ -312,6 +322,6 @@ public class C_Chat_Activity extends AppCompatActivity implements View.OnClickLi
                 .add("postId", String.valueOf(postId))
                 .add("chatGroup", JSON.toJSONString(dialog))
                 .build();
-        return QuickOkhttp_Util.init(requestBody, "sendMsg");
+        return QuickOkhttp_Util.init(requestBody, RequestMapping.sendMsg, C_Chat_Activity.this);
     }
 }

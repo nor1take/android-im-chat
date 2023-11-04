@@ -14,7 +14,7 @@ import java.net.Socket;
 
 public class Application_Util extends Application {
     public static final String ADDRESS = "n58770595y.zicp.fun";
-    public static final int PORT = 29494;
+    public static final int PORT = 16659;
 
     private Socket socket;
     private BufferedReader brClient;

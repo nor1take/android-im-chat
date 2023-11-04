@@ -8,7 +8,7 @@ import okhttp3.RequestBody;
 import okhttp3.Response;
 
 public class Okhttp_Util implements Runnable {
-    private final String ip = "https://n58770595y.zicp.fun/AndroidServe/";
+    private final String ip = "https://n58770595y.zicp.fun/AndroidServe";
     private RequestBody requestBody;
     private String servlet;
     private String responseFromServer;

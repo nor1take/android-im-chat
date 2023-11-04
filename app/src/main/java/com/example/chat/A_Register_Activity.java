@@ -1,5 +1,7 @@
 package com.example.chat;
 
+import static com.example.chat.utils.RequestMapping.REGISTER;
+
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Context;
@@ -12,7 +14,10 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.chat.utils.Code;
 import com.example.chat.utils.Okhttp_LoginOrRegist;
+import com.example.chat.utils.RequestMapping;
+import com.example.chat.utils.Result;
 
 public class A_Register_Activity extends AppCompatActivity {
     private EditText uname;
@@ -51,8 +56,8 @@ public class A_Register_Activity extends AppCompatActivity {
                 if (username.equals("") || password.equals(""))
                     Toast.makeText(A_Register_Activity.this, "用户名或密码不为空", Toast.LENGTH_SHORT).show();
                 else {
-                    String resp = Okhttp_LoginOrRegist.init(username, password, Okhttp_LoginOrRegist.REGISTER, A_Register_Activity.this);
-                    if ("注册成功".equals(resp)) {
+                    Result result = Okhttp_LoginOrRegist.init(username, password, REGISTER, A_Register_Activity.this);
+                    if (result.getCode().equals(Code.SAVE_OK)) {
                         startActivity(new Intent(A_Register_Activity.this, B_Container_Activity.class));
                     }
                 }

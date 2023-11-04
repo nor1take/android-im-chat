@@ -1,5 +1,7 @@
 package com.example.chat;
 
+import static com.example.chat.utils.RequestMapping.allMyChatGroups;
+
 import android.content.Intent;
 import android.os.Bundle;
 
@@ -26,6 +28,7 @@ import com.example.chat.pojo.MyMessage;
 import com.example.chat.utils.Application_Util;
 import com.example.chat.utils.Notice_Util;
 import com.example.chat.utils.QuickOkhttp_Util;
+import com.example.chat.utils.Result;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -48,15 +51,16 @@ public class B_Tab4_Fragment extends Fragment {
     private static Map<String, Integer> map = new HashMap<>();
     private static int indexOfList = 0;
 
-    private String getAllMyChatGroups() {
+    private Result getAllMyChatGroups() {
         RequestBody requestBody = new FormBody.Builder()
                 .add("uid", String.valueOf(application.getUid()))
                 .build();
-        return QuickOkhttp_Util.init(requestBody, "allMyChatGroups");
+        return QuickOkhttp_Util.init(requestBody, allMyChatGroups, getContext());
     }
 
     private void initDialogListView() {
-        String allMyChatGroups = getAllMyChatGroups();
+        Result result = getAllMyChatGroups();
+        String allMyChatGroups = result.getData().toString();
         JSONArray array = JSONArray.parseArray(allMyChatGroups);
         List<String> allMyChatGroupsList = array.toJavaList(String.class);
         for (String s : allMyChatGroupsList) {

@@ -19,12 +19,14 @@ import com.example.chat.pojo.Dialog;
 import com.example.chat.pojo.HotList;
 import com.example.chat.pojo.Post;
 import com.example.chat.utils.Application_Util;
+import com.example.chat.utils.Code;
 import com.example.chat.utils.Okhttp_Post;
+import com.example.chat.utils.Result;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class B_Tab2_Fragment extends Fragment  {
+public class B_Tab2_Fragment extends Fragment {
     JSONArray array;
     private static ListView hotListView;
     private static HotListAdapter adapter;
@@ -82,10 +84,13 @@ public class B_Tab2_Fragment extends Fragment  {
 
     //更新热榜
     List<Post> updateHotList(String label) {
-        String liter = Okhttp_Post.getTop3ByLabel(label);
+        Result result = Okhttp_Post.getTop3ByLabel(label, getContext());
+
+        String liter = result.getData().toString();
+        System.out.println(liter);
         array = JSONArray.parseArray(liter);
-        List<Post> List = array.toJavaList(Post.class);
-        return List;
+        List<Post> list = array.toJavaList(Post.class);
+        return list;
     }
 
     String DialogJson(Post curPost) {

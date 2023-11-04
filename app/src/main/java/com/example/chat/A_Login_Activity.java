@@ -1,11 +1,14 @@
 package com.example.chat;
 
+import static com.example.chat.utils.RequestMapping.LOGIN;
+
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
@@ -13,8 +16,14 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.alibaba.fastjson.JSON;
+import com.example.chat.pojo.Post;
+import com.example.chat.pojo.User;
 import com.example.chat.utils.Application_Util;
+import com.example.chat.utils.Code;
 import com.example.chat.utils.Okhttp_LoginOrRegist;
+import com.example.chat.utils.RequestMapping;
+import com.example.chat.utils.Result;
 
 public class A_Login_Activity extends AppCompatActivity {
     private EditText uname;
@@ -44,14 +53,13 @@ public class A_Login_Activity extends AppCompatActivity {
         if (username != null && password != null) {
             uname.setText(username);
             pwd.setText(password);
-            String resp = Okhttp_LoginOrRegist.init(username, password, Okhttp_LoginOrRegist.LOGIN, A_Login_Activity.this);
-            if (resp != null)
-                if ("登录成功".equals(resp.substring(0, 4))) {
-                    String s_id = resp.substring(4);
-                    id = Integer.parseInt(s_id);
-                    application.setUid(id); //设置全局变量 uid
-                    startActivity(new Intent(A_Login_Activity.this, B_Container_Activity.class));
-                }
+            Result result = Okhttp_LoginOrRegist.init(username, password, LOGIN, A_Login_Activity.this);
+
+            if (result.getCode().equals(Code.GET_OK)) {
+                User user = JSON.parseObject(result.getData().toString(), User.class);
+                application.setUid(user.getId()); //设置全局变量 uid
+                startActivity(new Intent(A_Login_Activity.this, B_Container_Activity.class));
+            }
         }
 
         login.setOnClickListener(new View.OnClickListener() {
@@ -69,19 +77,17 @@ public class A_Login_Activity extends AppCompatActivity {
                 if (username.equals("") || password.equals(""))
                     Toast.makeText(A_Login_Activity.this, "用户名或密码不为空", Toast.LENGTH_SHORT).show();
                 else {
-                    String resp = Okhttp_LoginOrRegist.init(username, password, Okhttp_LoginOrRegist.LOGIN, A_Login_Activity.this);
-                    if (resp != null) {
-                        if ("登录成功".equals(resp.substring(0, 4))) {
-                            String s_id = resp.substring(4);
-                            id = Integer.parseInt(s_id);
-                            application.setUid(id); //设置全局变量 uid
+                    Result result = Okhttp_LoginOrRegist.init(username, password, LOGIN, A_Login_Activity.this);
 
-                            sp.edit()
-                                    .putString("username", username)
-                                    .putString("password", password)
-                                    .commit();
-                            startActivity(new Intent(A_Login_Activity.this, B_Container_Activity.class));
-                        }
+                    if (result.getCode().equals(Code.GET_OK)) {
+                        User user = JSON.parseObject(result.getData().toString(), User.class);
+
+                        application.setUid(user.getId()); //设置全局变量 uid
+                        sp.edit()
+                                .putString("username", username)
+                                .putString("password", password)
+                                .commit();
+                        startActivity(new Intent(A_Login_Activity.this, B_Container_Activity.class));
                     }
                 }
             }
