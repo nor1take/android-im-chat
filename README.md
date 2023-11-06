@@ -2,11 +2,11 @@
 ## 相关链接
 - 项目设计与开发文档：[网盘链接](https://pan.baidu.com/s/1yHCvR4Tl3_CsBxsxX16r6Q?pwd=0608)
 
-- 客户端：[Gitee链接](https://github.com/nor1take/android-im-chat)
+- 客户端：[Github链接](https://github.com/nor1take/android-im-chat)
 
-- 服务端 SSM：[Gitee链接](https://github.com/nor1take/android-im-chat-server)
+- 服务端 SSM：[Github链接](https://github.com/nor1take/android-im-chat-server)
 
-- 服务端 SpringBoot：[Gitee链接](https://github.com/nor1take/android-im-chat-server-springboot)
+- 服务端 SpringBoot：[Github链接](https://github.com/nor1take/android-im-chat-server-springboot)
 
 ## 整体设计
 ### 1 服务器的搭建
